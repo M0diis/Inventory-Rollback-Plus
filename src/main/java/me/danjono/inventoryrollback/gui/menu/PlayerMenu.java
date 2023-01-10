@@ -1,9 +1,11 @@
 package me.danjono.inventoryrollback.gui.menu;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -33,11 +35,11 @@ public class PlayerMenu {
     public void createInventory() {
         inventory = Bukkit.createInventory(staff, InventoryName.PLAYER_MENU.getSize(), InventoryName.PLAYER_MENU.getName());
         
-        inventory.setItem(2, buttons.createDeathLogButton(LogType.DEATH, null));
-        inventory.setItem(3, buttons.createJoinLogButton(LogType.JOIN, null));
-        inventory.setItem(4, buttons.createQuitLogButton(LogType.QUIT, null));
-        inventory.setItem(5, buttons.createWorldChangeLogButton(LogType.WORLD_CHANGE, null));
-        inventory.setItem(6, buttons.createForceSaveLogButton(LogType.FORCE, null));
+        inventory.setItem(2, buttons.createDeathLogButton(Material.getMaterial(MessageData.getDeathsLogButtonMaterial()), LogType.DEATH, null));
+        inventory.setItem(3, buttons.createJoinLogButton(Material.getMaterial(MessageData.getJoinsLogButtonMaterial()), LogType.JOIN, null));
+        inventory.setItem(4, buttons.createQuitLogButton(Material.getMaterial(MessageData.getQuitsLogButtonMaterial()), LogType.QUIT, null));
+        inventory.setItem(5, buttons.createWorldChangeLogButton(Material.getMaterial(MessageData.getWorldChangesLogButtonMaterial()), LogType.WORLD_CHANGE, null));
+        inventory.setItem(6, buttons.createForceSaveLogButton(Material.getMaterial(MessageData.getForceSavesLogButtonMaterial()), LogType.FORCE, null));
     }
 
     public Inventory getInventory() {
@@ -78,23 +80,56 @@ public class PlayerMenu {
             //No backups have been found for the player
             staff.sendMessage(MessageData.getPluginPrefix() + MessageData.getNoBackupError(offlinePlayer.getName()));
         }
-        
-        String backupsAvailable = MessageData.getBackupsAvailableLore();
 
-        List<String> deaths = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(deathBackup.getAmountOfBackups())));
-        inventory.setItem(2, buttons.createDeathLogButton(LogType.DEATH, deaths));
+        List<String> deaths = MessageData.getDeathsLogButtonLore()
+                        .stream()
+                        .map(s -> s.replace("%backups%", String.valueOf(deathBackup.getAmountOfBackups()))
+                                .replace("%player%", offlinePlayer.getName()))
+                        .collect(Collectors.toList());
+
+        Material deathMaterial = Material.getMaterial(MessageData.getDeathsLogButtonMaterial());
+
+        inventory.setItem(2, buttons.createDeathLogButton(deathMaterial, LogType.DEATH, deaths));
         
-        List<String> joins = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(joinBackup.getAmountOfBackups())));
-        inventory.setItem(3, buttons.createJoinLogButton(LogType.JOIN, joins));
+        List<String> joins = MessageData.getJoinsLogButtonLore()
+                        .stream()
+                        .map(s -> s.replace("%backups%", String.valueOf(joinBackup.getAmountOfBackups()))
+                                .replace("%player%", offlinePlayer.getName()))
+                        .collect(Collectors.toList());
+
+        Material joinsMaterial = Material.getMaterial(MessageData.getJoinsLogButtonMaterial());
         
-        List<String> quits = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(quitBackup.getAmountOfBackups())));
-        inventory.setItem(4, buttons.createQuitLogButton(LogType.QUIT, quits));
+        inventory.setItem(3, buttons.createJoinLogButton(joinsMaterial, LogType.JOIN, joins));
         
-        List<String> worldChange = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(worldChangeBackup.getAmountOfBackups())));
-        inventory.setItem(5, buttons.createWorldChangeLogButton(LogType.WORLD_CHANGE, worldChange));
+        List<String> quits = MessageData.getQuitsLogButtonLore()
+                        .stream()
+                        .map(s -> s.replace("%backups%", String.valueOf(quitBackup.getAmountOfBackups()))
+                                .replace("%player%", offlinePlayer.getName()))
+                        .collect(Collectors.toList());
         
-        List<String> forceSaves = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(forceSaveBackup.getAmountOfBackups())));
-        inventory.setItem(6, buttons.createForceSaveLogButton(LogType.FORCE, forceSaves));
+        Material quitsMaterial = Material.getMaterial(MessageData.getQuitsLogButtonMaterial());
+                
+        inventory.setItem(4, buttons.createQuitLogButton(quitsMaterial, LogType.QUIT, quits));
+        
+        List<String> worldChange = MessageData.getWorldChangesLogButtonLore()
+                        .stream()
+                        .map(s -> s.replace("%backups%", String.valueOf(worldChangeBackup.getAmountOfBackups()))
+                                .replace("%player%", offlinePlayer.getName()))
+                        .collect(Collectors.toList());
+        
+        Material worldChangeMaterial = Material.getMaterial(MessageData.getWorldChangesLogButtonMaterial());
+        
+        inventory.setItem(5, buttons.createWorldChangeLogButton(worldChangeMaterial, LogType.WORLD_CHANGE, worldChange));
+        
+        List<String> forceSaves = MessageData.getForceSavesLogButtonLore()
+                        .stream()
+                        .map(s -> s.replace("%backups%", String.valueOf(forceSaveBackup.getAmountOfBackups()))
+                                .replace("%player%", offlinePlayer.getName()))
+                        .collect(Collectors.toList());
+        
+        Material forceSavesMaterial = Material.getMaterial(MessageData.getForceSavesLogButtonMaterial());
+        
+        inventory.setItem(6, buttons.createForceSaveLogButton(forceSavesMaterial, LogType.FORCE, forceSaves));
     }
 
 }

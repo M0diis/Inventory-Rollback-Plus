@@ -57,14 +57,49 @@ death-location:
   teleport: 'You have been teleported to %LOCATION%'
   invalid-world: 'The world %WORLD% is not currently loaded on the server.'
 
+location:
+  world: '&6World: &f%WORLD%'
+  x: '&6X: &f%X%'
+  y: '&6Y: &f%Y%'
+  z: '&6Z: &f%Z%'
+
 menu-buttons:
   main-menu: '&fMain Menu'
   next-page: '&fNext Page'
   previous-page: '&fPrevious Page'
   back-page: '&fBack'
-  deaths-log: '&4Deaths'
-  joins-log: '&aJoins'
-  quits-log: '&cQuits'
-  world-changes-log: '&6World Changes'
-  force-saves-log: '&eForce Saves'
-  backups-available: "&7%amount% backup(s) available"
+  deaths-log:
+    name: '&cDeaths'
+    lore:
+      - '&7Click to view %player% deaths log.'
+      - '&r'
+      - '&7%backups% backup(s) available'
+    material: 'BONE'
+  joins-log:
+    name: '&aJoins'
+    lore:
+      - '&7Click to view %player% joins log.'
+      - '&r'
+      - '&7%backups% backup(s) available'
+    material: 'OAK_SAPLING'
+  quits-log:
+    name: '&cQuits'
+    lore:
+      - '&7Click to view %player% quits log.'
+      - '&r'
+      - '&7%backups% backup(s) available'
+    material: 'RED_BED'
+  world-changes-log:
+    name: '&6World Changes'
+    lore:
+      - '&7Click to view %player% world changes log.'
+      - '&r'
+      - '&7%backups% backup(s) available'
+    material: 'COMPASS'
+  force-saves-log:
+    name: '&eForce Saves'
+    lore:
+      - '&rClick to view %player% force saves log.'
+      - '&r'
+      - '&7%backups% backup(s) available'
+    material: 'DIAMOND'

@@ -2,8 +2,14 @@ package me.danjono.inventoryrollback.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -71,7 +77,9 @@ public class MessageData {
 
     // Command (force backup) messages
     private static String noBackup;
+
     private static String notOnline;
+
     private static String forceSavedPlayer;
     private static String forceSavedAll;
     private static String notForcedSaved;
@@ -129,7 +137,24 @@ public class MessageData {
     private static String quitsLogButton;
     private static String worldChangesLogButton;
     private static String forceSavesLogButton;
-    private static String backupsAvailableLore;
+
+    private static String locationWorld;
+    private static String locationX;
+    private static String locationY;
+    private static String locationZ;
+
+
+    private static String deathsLogButtonMaterial;
+    private static String joinsLogButtonMaterial;
+    private static String quitsLogButtonMaterial;
+    private static String worldChangesLogButtonMaterial;
+    private static String forceSavesLogButtonMaterial;
+
+    private static List<String> deathsLogButtonLore;
+    private static List<String> joinsLogButtonLore;
+    private static List<String> quitsLogButtonLore;
+    private static List<String> worldChangesLogButtonLore;
+    private static List<String> forceSavesLogButtonLore;
 
     public void setMessages() {
         setPluginPrefix(convertColorCodes((String) getDefaultValue("general.prefix", "&f[&bInventoryRollbackPlus&f]&r ")));
@@ -200,15 +225,56 @@ public class MessageData {
         setNextPageButton(convertColorCodes((String) getDefaultValue("menu-buttons.next-page", "&fNext Page")));
         setPreviousPageButton(convertColorCodes((String) getDefaultValue("menu-buttons.previous-page", "&fPrevious Page")));
         setBackButton(convertColorCodes((String) getDefaultValue("menu-buttons.back-page", "&fBack")));
-        setDeathsLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.deaths-log", "&4Deaths")));
-        setJoinsLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.joins-log", "&aJoins")));
-        setQuitsLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.quits-log", "&cQuits")));
-        setWorldChangesLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.world-changes-log", "&6World Changes")));
-        setForceSavesLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.force-saves-log", "&2Force Saves")));
-        setBackupsAvailableLore(convertColorCodes((String) getDefaultValue("menu-buttons.backups-available", "&7Backups available")));
+        setDeathsLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.deaths-log.name", "&4Deaths")));
+        setJoinsLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.joins-log.name", "&aJoins")));
+        setQuitsLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.quits-log.name", "&cQuits")));
+        setWorldChangesLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.world-changes-log.name", "&6World Changes")));
+        setForceSavesLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.force-saves-log.name", "&2Force Saves")));
+
+        setDeathsLogButtonMaterial(convertColorCodes((String) getDefaultValue("menu-buttons.deaths-log.material", "BONE")));
+        setJoinsLogButtonMaterial(convertColorCodes((String) getDefaultValue("menu-buttons.joins-log.material", "OAK_SAPLING")));
+        setQuitsLogButtonMaterial(convertColorCodes((String) getDefaultValue("menu-buttons.quits-log.material", "RED_BED")));
+        setWorldChangesLogButtonMaterial(convertColorCodes((String) getDefaultValue("menu-buttons.world-changes-log.material", "COMPASS")));
+        setForceSavesLogButtonMaterial(convertColorCodes((String) getDefaultValue("menu-buttons.force-saves-log.material", "DIAMOND")));
+
+        setLocationWorld(convertColorCodes((String) getDefaultValue("location.world", "&6World: &f%WORLD%")));
+        setLocationX(convertColorCodes((String) getDefaultValue("location.x", "&6X: &f%X%")));
+        setLocationY(convertColorCodes((String) getDefaultValue("location.y", "&6Y: &f%Y%")));
+        setLocationZ(convertColorCodes((String) getDefaultValue("location.z", "&6Z: &f%Z%")));
+
+        setDeathsLogButtonLore(convertColorCodes(getDefaultValue("menu-buttons.deaths-log.lore",
+                Collections.singletonList("&rClick to view the deaths log."))));
+        setJoinsLogButtonLore(convertColorCodes(getDefaultValue("menu-buttons.joins-log.lore",
+                Collections.singletonList("&rClick to view the joins log."))));
+        setQuitsLogButtonLore(convertColorCodes(getDefaultValue("menu-buttons.quits-log.lore",
+                Collections.singletonList("&rClick to view the quits log."))));
+        setWorldChangesLogButtonLore(convertColorCodes(getDefaultValue("menu-buttons.world-changes-log.lore",
+                Collections.singletonList("&rClick to view the world changes log."))));
+        setForceSavesLogButtonLore(convertColorCodes(getDefaultValue("menu-buttons.force-saves-log.lore",
+                Collections.singletonList("&rClick to view the force saves log."))));
 
         if (saveChanges())
             saveConfig();
+    }
+
+    private void setDeathsLogButtonMaterial(String material) {
+        deathsLogButtonMaterial = material;
+    }
+
+    private void setJoinsLogButtonMaterial(String material) {
+        joinsLogButtonMaterial = material;
+    }
+
+    private void setQuitsLogButtonMaterial(String material) {
+        quitsLogButtonMaterial = material;
+    }
+
+    private void setWorldChangesLogButtonMaterial(String material) {
+        worldChangesLogButtonMaterial = material;
+    }
+
+    private void setForceSavesLogButtonMaterial(String material) {
+        forceSavesLogButtonMaterial = material;
     }
 
     private static String nameVariable = "%NAME%";
@@ -281,7 +347,7 @@ public class MessageData {
     public static void setMainInventoryNotOnline(String message) {
         mainInventoryNotOnline = message;
     }
-    
+
     public static void setMainInventoryButton(String message) {
         mainInventoryButton = message;
     }
@@ -301,7 +367,7 @@ public class MessageData {
     public static void setEnderChestNotOnline(String message) {
         enderChestNotOnline = message;
     }
-    
+
     public static void setEnderChestButton(String message) {
         enderChestButton = message;
     }
@@ -317,7 +383,7 @@ public class MessageData {
     public static void setHealthNotOnline(String message) {
         healthNotOnline = message;
     }
-    
+
     public static void setHealthButton(String message) {
         healthButton = message;
     }
@@ -333,7 +399,7 @@ public class MessageData {
     public static void setHungerNotOnline(String message) {
         hungerNotOnline = message;
     }
-    
+
     public static void setHungerButton(String message) {
         hungerButton = message;
     }
@@ -349,7 +415,7 @@ public class MessageData {
     public static void setExperienceNotOnlinePlayer(String message) {
         experienceNotOnline = message;
     }
-    
+
     public static void setExperienceButton(String message) {
         experienceButton = message;
     }
@@ -373,7 +439,23 @@ public class MessageData {
     public static void setDeathLocationZ(String message) {
         deathLocationZ = message;
     }
-    
+
+    public static void setLocationWorld(String message) {
+        locationWorld = message;
+    }
+
+    public static void setLocationX(String message) {
+        locationX = message;
+    }
+
+    public static void setLocationY(String message) {
+        locationY = message;
+    }
+
+    public static void setLocationZ(String message) {
+        locationZ = message;
+    }
+
     public static void setDeathReason(String message) {
         deathReason = message;
     }
@@ -381,7 +463,7 @@ public class MessageData {
     public static void setDeathTime(String message) {
         deathTime = message;
     }
-    
+
     public static void setDeathLocation(String message) {
         deathLocationTeleportTo = message;
     }
@@ -431,8 +513,24 @@ public class MessageData {
         forceSavesLogButton = message;
     }
 
-    private void setBackupsAvailableLore(String message) {
-        backupsAvailableLore = message;
+    private static void setDeathsLogButtonLore(List<String> lore) {
+        deathsLogButtonLore = lore;
+    }
+
+    private static void setJoinsLogButtonLore(List<String> lore) {
+        joinsLogButtonLore = lore;
+    }
+
+    private static void setQuitsLogButtonLore(List<String> lore) {
+        quitsLogButtonLore = lore;
+    }
+
+    private static void setWorldChangesLogButtonLore(List<String> lore) {
+        worldChangesLogButtonLore = lore;
+    }
+
+    private static void setForceSavesLogButtonLore(List<String> lore) {
+        forceSavesLogButtonLore = lore;
     }
 
     // GETTERS
@@ -488,7 +586,7 @@ public class MessageData {
     public static String getForceBackupPlayer(String name) {
         return forceSavedPlayer.replaceAll(nameVariable, name);
     }
-    
+
     public static String getForceBackupAll() {
         return forceSavedAll;
     }
@@ -508,7 +606,7 @@ public class MessageData {
     public static String getMainInventoryNotOnline(String name) {
         return mainInventoryNotOnline.replaceAll(nameVariable, name);
     }
-    
+
     public static String getMainInventoryRestoreButton() {
         return mainInventoryButton;
     }
@@ -528,7 +626,7 @@ public class MessageData {
     public static String getEnderChestNotOnline(String name) {
         return enderChestNotOnline.replaceAll(nameVariable, name);
     }
-    
+
     public static String getEnderChestRestoreButton() {
         return enderChestButton;
     }
@@ -544,7 +642,7 @@ public class MessageData {
     public static String getHealthNotOnline(String name) {
         return healthNotOnline.replaceAll(nameVariable, name);
     }
-    
+
     public static String getHealthRestoreButton() {
         return healthButton;
     }
@@ -560,7 +658,7 @@ public class MessageData {
     public static String getHungerNotOnline(String name) {
         return hungerNotOnline.replaceAll(nameVariable, name);
     }
-    
+
     public static String getHungerRestoreButton() {
         return hungerButton;
     }
@@ -576,7 +674,7 @@ public class MessageData {
     public static String getExperienceNotOnlinePlayer(String name) {
         return experienceNotOnline.replaceAll(nameVariable, name);
     }
-    
+
     public static String getExperienceRestoreButton() {
         return experienceButton;
     }
@@ -601,6 +699,22 @@ public class MessageData {
         return deathLocationZ.replace("%Z%", Math.floor(z) + "");
     }
 
+    public static String getLocationWorld(String world) {
+        return locationWorld.replace("%WORLD%", world);
+    }
+
+    public static String getLocationX(Double x) {
+        return locationX.replace("%X%", Math.floor(x) + "");
+    }
+
+    public static String getLocationY(Double y) {
+        return locationY.replace("%Y%", Math.floor(y) + "");
+    }
+
+    public static String getLocationZ(Double z) {
+        return locationZ.replace("%Z%", Math.floor(z) + "");
+    }
+
     public static String getDeathReason(String reason) {
         return deathReason.replace("%REASON%", reason);
     }
@@ -608,7 +722,7 @@ public class MessageData {
     public static String getDeathTime(String time) {
         return deathTime.replace("%TIME%", time);
     }
-    
+
     public static String getDeathLocation() {
         return deathLocationTeleportTo;
     }
@@ -657,18 +771,74 @@ public class MessageData {
         return forceSavesLogButton;
     }
 
-    public static String getBackupsAvailableLore() {
-        return backupsAvailableLore;
+
+    public static String getDeathsLogButtonMaterial() {
+        return deathsLogButtonMaterial;
     }
-    
+
+    public static String getJoinsLogButtonMaterial() {
+        return joinsLogButtonMaterial;
+    }
+
+    public static String getQuitsLogButtonMaterial() {
+        return quitsLogButtonMaterial;
+    }
+
+    public static String getWorldChangesLogButtonMaterial() {
+        return worldChangesLogButtonMaterial;
+    }
+
+    public static String getForceSavesLogButtonMaterial() {
+        return forceSavesLogButtonMaterial;
+    }
+
+    public static List<String> getDeathsLogButtonLore() {
+        return deathsLogButtonLore;
+    }
+
+    public static List<String> getJoinsLogButtonLore() {
+        return joinsLogButtonLore;
+    }
+
+    public static List<String> getQuitsLogButtonLore() {
+        return quitsLogButtonLore;
+    }
+
+    public static List<String> getWorldChangesLogButtonLore() {
+        return worldChangesLogButtonLore;
+    }
+
+    public static List<String> getForceSavesLogButtonLore() {
+        return forceSavesLogButtonLore;
+    }
+
     private static String convertColorCodes(String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
+    }
+
+    private static List<String> convertColorCodes(List<String> text) {
+        return text.stream().map(s -> ChatColor.translateAlternateColorCodes('&', s)).collect(Collectors.toList());
     }
 
     public Object getDefaultValue(String path, Object defaultValue) {
         Object obj = messages.get(path);
 
         if (obj == null) {
+            obj = defaultValue;
+
+            messages.set(path, defaultValue);
+            saveChanges = true;
+        }
+
+        return obj;
+    }
+
+
+
+    public List<String> getDefaultValue(String path, List<String> defaultValue) {
+        List<String> obj = messages.getStringList(path);
+
+        if (obj.isEmpty()) {
             obj = defaultValue;
 
             messages.set(path, defaultValue);

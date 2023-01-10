@@ -41,11 +41,6 @@ public class Buttons {
             InventoryRollbackPlus.getInstance().getVersion().isAtLeast(EnumNmsVersion.v1_13_R1) ?
                     Material.RED_BED : Material.getMaterial("BED");
 
-    private static final Material worldChange = Material.COMPASS;
-
-    private static final Material forceSave = Material.DIAMOND;
-
-
     private static final Material pageSelector =
             InventoryRollbackPlus.getInstance().getVersion().isAtLeast(EnumNmsVersion.v1_13_R1) ?
                     Material.WHITE_BANNER : Material.getMaterial("BANNER");
@@ -66,35 +61,12 @@ public class Buttons {
 
     private static final Material restoreAllInventory = Material.NETHER_STAR;
 
-    private static final Material restoreAllInventoryDisabled = Material.REDSTONE_BLOCK;
-
-
     public Buttons(UUID uuid) {
         this.uuid = uuid;
     }
     
     public Buttons(OfflinePlayer player) {
         this.uuid = player.getUniqueId();
-    }
-    
-    public static Material getDeathLogIcon() {
-        return death;
-    }
-    
-    public static Material getJoinLogIcon() {
-        return join;
-    }
-    
-    public static Material getQuitLogIcon() {
-        return quit;
-    }
-    
-    public static Material getWorldChangeLogIcon() {
-        return worldChange;
-    }
-    
-    public static Material getForceSaveLogIcon() {
-        return forceSave;
     }
 
     public static Material getPageSelectorIcon() {
@@ -123,10 +95,6 @@ public class Buttons {
 
     public static Material getRestoreAllInventoryIcon() {
         return restoreAllInventory;
-    }
-
-    public static Material getRestoreAllInventoryDisabledIcon() {
-        return restoreAllInventoryDisabled;
     }
 
     public ItemStack nextButton(String displayName, LogType logType, int page, List<String> lore) {
@@ -352,8 +320,8 @@ public class Buttons {
         return item;
     }
 
-    public ItemStack createDeathLogButton(LogType logType, List<String> lore) {    	
-        ItemStack item = new ItemStack(getDeathLogIcon());        
+    public ItemStack createDeathLogButton(Material material, LogType logType, List<String> lore) {
+        ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
         assert meta != null;
@@ -374,8 +342,8 @@ public class Buttons {
         return item;
     }
 
-    public ItemStack createJoinLogButton(LogType logType, List<String> lore) {      
-        ItemStack item = new ItemStack(getJoinLogIcon());        
+    public ItemStack createJoinLogButton(Material material, LogType logType, List<String> lore) {
+        ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
         assert meta != null;
@@ -396,8 +364,8 @@ public class Buttons {
         return item;
     }
 
-    public ItemStack createQuitLogButton(LogType logType, List<String> lore) {      
-        ItemStack item = new ItemStack(getQuitLogIcon());        
+    public ItemStack createQuitLogButton(Material material, LogType logType, List<String> lore) {
+        ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
         assert meta != null;
@@ -418,8 +386,8 @@ public class Buttons {
         return item;
     }
 
-    public ItemStack createWorldChangeLogButton(LogType logType, List<String> lore) {      
-        ItemStack item = new ItemStack(getWorldChangeLogIcon());        
+    public ItemStack createWorldChangeLogButton(Material material, LogType logType, List<String> lore) {
+        ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
         assert meta != null;
@@ -440,8 +408,8 @@ public class Buttons {
         return item;
     }
 
-    public ItemStack createForceSaveLogButton(LogType logType, List<String> lore) {      
-        ItemStack item = new ItemStack(getForceSaveLogIcon());        
+    public ItemStack createForceSaveLogButton(Material material, LogType logType, List<String> lore) {
+        ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
         assert meta != null;
@@ -528,10 +496,16 @@ public class Buttons {
         List<String> lore = new ArrayList<>();
         if (location != null) {
             String[] loc = location.split(",");
-            lore.add(ChatColor.GOLD + "World: " + ChatColor.WHITE + loc[0]);
-            lore.add(ChatColor.GOLD + "X: " + ChatColor.WHITE + loc[1]);
-            lore.add(ChatColor.GOLD + "Y: " + ChatColor.WHITE + loc[2]);
-            lore.add(ChatColor.GOLD + "Z: " + ChatColor.WHITE + loc[3]);
+
+            lore.add(MessageData.getLocationWorld(loc[0]));
+
+            double x = Double.parseDouble(loc[1]);
+            double y = Double.parseDouble(loc[2]);
+            double z = Double.parseDouble(loc[3]);
+
+            lore.add(MessageData.getLocationX(x));
+            lore.add(MessageData.getLocationY(y));
+            lore.add(MessageData.getLocationZ(z));
 
             meta.setLore(lore);
         } else {
@@ -646,34 +620,6 @@ public class Buttons {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setDisplayName(MessageData.getMainInventoryRestoreButton());
-
-        item.setItemMeta(meta);
-
-        NBTWrapper nbt = new NBTWrapper(item);
-
-        nbt.setString("uuid", uuid.toString());
-        nbt.setString("logType", logType.name());
-        nbt.setLong("timestamp", timestamp);
-        item = nbt.setItemData();
-
-        return item;
-    }
-
-    public ItemStack restoreAllInventoryDisabled(LogType logType, Long timestamp) {
-        ItemStack item = new ItemStack(getRestoreAllInventoryDisabledIcon());
-
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-
-        String[] nameParts = MessageData.getMainInventoryDisabledButton().split("\\\\n");
-        String titlePart = nameParts[0];
-        ArrayList<String> loreParts = new ArrayList<>();
-
-        meta.setDisplayName(titlePart);
-        for (int i = 1; i < nameParts.length; i ++) {
-            loreParts.add(nameParts[i]);
-        }
-        meta.setLore(loreParts);
 
         item.setItemMeta(meta);
 

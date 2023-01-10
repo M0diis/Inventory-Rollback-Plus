@@ -122,12 +122,7 @@ public class EnderChestBackupMenu {
             inventory.setItem(
                     InventoryName.ENDER_CHEST_BACKUP.getSize() - 5,
                     buttons.restoreAllInventory(logType, timestamp));
-        } else {
-            inventory.setItem(
-                    InventoryName.ENDER_CHEST_BACKUP.getSize() - 5,
-                    buttons.restoreAllInventoryDisabled(logType, timestamp));
         }
-
 
         List<String> lore = new ArrayList<>();
         if (pageNumber < pagesRequired) {
