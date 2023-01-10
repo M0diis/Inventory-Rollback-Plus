@@ -62,3 +62,9 @@ menu-buttons:
   next-page: '&fNext Page'
   previous-page: '&fPrevious Page'
   back-page: '&fBack'
+  deaths-log: '&4Deaths'
+  joins-log: '&aJoins'
+  quits-log: '&cQuits'
+  world-changes-log: '&6World Changes'
+  force-saves-log: '&eForce Saves'
+  backups-available: "&7%amount% backup(s) available"

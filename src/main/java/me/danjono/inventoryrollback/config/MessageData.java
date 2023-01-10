@@ -124,6 +124,12 @@ public class MessageData {
     private static String nextPageButton;
     private static String previousPageButton;
     private static String backButton;
+    private static String deathsLogButton;
+    private static String joinsLogButton;
+    private static String quitsLogButton;
+    private static String worldChangesLogButton;
+    private static String forceSavesLogButton;
+    private static String backupsAvailableLore;
 
     public void setMessages() {
         setPluginPrefix(convertColorCodes((String) getDefaultValue("general.prefix", "&f[&bInventoryRollbackPlus&f]&r ")));
@@ -194,6 +200,12 @@ public class MessageData {
         setNextPageButton(convertColorCodes((String) getDefaultValue("menu-buttons.next-page", "&fNext Page")));
         setPreviousPageButton(convertColorCodes((String) getDefaultValue("menu-buttons.previous-page", "&fPrevious Page")));
         setBackButton(convertColorCodes((String) getDefaultValue("menu-buttons.back-page", "&fBack")));
+        setDeathsLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.deaths-log", "&4Deaths")));
+        setJoinsLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.joins-log", "&aJoins")));
+        setQuitsLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.quits-log", "&cQuits")));
+        setWorldChangesLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.world-changes-log", "&6World Changes")));
+        setForceSavesLogButton(convertColorCodes((String) getDefaultValue("menu-buttons.force-saves-log", "&2Force Saves")));
+        setBackupsAvailableLore(convertColorCodes((String) getDefaultValue("menu-buttons.backups-available", "&7Backups available")));
 
         if (saveChanges())
             saveConfig();
@@ -399,6 +411,29 @@ public class MessageData {
         backButton = message;
     }
 
+    public static void setDeathsLogButton(String message) {
+        deathsLogButton = message;
+    }
+
+    public static void setJoinsLogButton(String message) {
+        joinsLogButton = message;
+    }
+
+    public static void setQuitsLogButton(String message) {
+        quitsLogButton = message;
+    }
+
+    public static void setWorldChangesLogButton(String message) {
+        worldChangesLogButton = message;
+    }
+
+    public static void setForceSavesLogButton(String message) {
+        forceSavesLogButton = message;
+    }
+
+    private void setBackupsAvailableLore(String message) {
+        backupsAvailableLore = message;
+    }
 
     // GETTERS
 
@@ -600,6 +635,30 @@ public class MessageData {
 
     public static String getBackButton() {
         return backButton;
+    }
+
+    public static String getDeathsLogButton() {
+        return deathsLogButton;
+    }
+
+    public static String getJoinsLogButton() {
+        return joinsLogButton;
+    }
+
+    public static String getQuitsLogButton() {
+        return quitsLogButton;
+    }
+
+    public static String getWorldChangesLogButton() {
+        return worldChangesLogButton;
+    }
+
+    public static String getForceSavesLogButton() {
+        return forceSavesLogButton;
+    }
+
+    public static String getBackupsAvailableLore() {
+        return backupsAvailableLore;
     }
     
     private static String convertColorCodes(String text) {

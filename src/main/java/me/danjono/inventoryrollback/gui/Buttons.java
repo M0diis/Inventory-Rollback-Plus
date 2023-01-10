@@ -360,8 +360,8 @@ public class Buttons {
         if (lore != null) {         
             meta.setLore(lore);
         }
-        
-        meta.setDisplayName(ChatColor.RED + "Deaths");
+
+        meta.setDisplayName(MessageData.getDeathsLogButton());
 
         item.setItemMeta(meta);
 
@@ -383,7 +383,7 @@ public class Buttons {
             meta.setLore(lore);
         }
         
-        meta.setDisplayName(ChatColor.GREEN + "Joins");
+        meta.setDisplayName(MessageData.getJoinsLogButton());
 
         item.setItemMeta(meta);
 
@@ -405,7 +405,7 @@ public class Buttons {
             meta.setLore(lore);
         }
         
-        meta.setDisplayName(ChatColor.GOLD + "Quits");
+        meta.setDisplayName(MessageData.getQuitsLogButton());
 
         item.setItemMeta(meta);
 
@@ -427,7 +427,7 @@ public class Buttons {
             meta.setLore(lore);
         }
         
-        meta.setDisplayName(ChatColor.LIGHT_PURPLE + "World Changes");
+        meta.setDisplayName(MessageData.getWorldChangesLogButton());
 
         item.setItemMeta(meta);
 
@@ -449,7 +449,7 @@ public class Buttons {
             meta.setLore(lore);
         }
         
-        meta.setDisplayName(ChatColor.AQUA + "Force Saves");
+        meta.setDisplayName(MessageData.getForceSavesLogButton());
 
         item.setItemMeta(meta);
 
@@ -686,5 +686,4 @@ public class Buttons {
 
         return item;
     }
-
 }

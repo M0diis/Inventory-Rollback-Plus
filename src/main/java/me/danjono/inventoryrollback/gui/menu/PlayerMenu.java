@@ -1,9 +1,6 @@
 package me.danjono.inventoryrollback.gui.menu;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,10 +16,10 @@ import me.danjono.inventoryrollback.gui.InventoryName;
 
 public class PlayerMenu {
 
-    private Player staff;
-    private OfflinePlayer offlinePlayer;
+    private final Player staff;
+    private final OfflinePlayer offlinePlayer;
 
-    private Buttons buttons;
+    private final Buttons buttons;
     private Inventory inventory;
 
     public PlayerMenu(Player staff, OfflinePlayer player) {
@@ -82,21 +79,21 @@ public class PlayerMenu {
             staff.sendMessage(MessageData.getPluginPrefix() + MessageData.getNoBackupError(offlinePlayer.getName()));
         }
         
-        String backupsAvailable = " backup(s) available";
+        String backupsAvailable = MessageData.getBackupsAvailableLore();
 
-        List<String> deaths = Arrays.asList(deathBackup.getAmountOfBackups() + backupsAvailable);
+        List<String> deaths = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(deathBackup.getAmountOfBackups())));
         inventory.setItem(2, buttons.createDeathLogButton(LogType.DEATH, deaths));
         
-        List<String> joins = Arrays.asList(joinBackup.getAmountOfBackups() + backupsAvailable);
+        List<String> joins = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(joinBackup.getAmountOfBackups())));
         inventory.setItem(3, buttons.createJoinLogButton(LogType.JOIN, joins));
         
-        List<String> quits = Arrays.asList(quitBackup.getAmountOfBackups() + backupsAvailable);
+        List<String> quits = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(quitBackup.getAmountOfBackups())));
         inventory.setItem(4, buttons.createQuitLogButton(LogType.QUIT, quits));
         
-        List<String> worldChange = Arrays.asList(worldChangeBackup.getAmountOfBackups() + backupsAvailable);
+        List<String> worldChange = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(worldChangeBackup.getAmountOfBackups())));
         inventory.setItem(5, buttons.createWorldChangeLogButton(LogType.WORLD_CHANGE, worldChange));
         
-        List<String> forceSaves = Arrays.asList(forceSaveBackup.getAmountOfBackups() + backupsAvailable);
+        List<String> forceSaves = Collections.singletonList(backupsAvailable.replace("%amount%", String.valueOf(forceSaveBackup.getAmountOfBackups())));
         inventory.setItem(6, buttons.createForceSaveLogButton(LogType.FORCE, forceSaves));
     }
 

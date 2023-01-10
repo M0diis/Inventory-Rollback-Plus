@@ -23,19 +23,21 @@ public class RestoreSubCmd extends IRPCommand {
 
     @Override
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender instanceof Player) {
-            if (sender.hasPermission("inventoryrollbackplus.viewbackups")) {
-                if (!ConfigData.isEnabled()) {
-                    sender.sendMessage(MessageData.getPluginPrefix() + MessageData.getPluginDisabled());
-                    return;
-                }
-                Player staff = (Player) sender;
-                openBackupMenu(sender, staff, args);
-            } else {
-                sender.sendMessage(MessageData.getPluginPrefix() + MessageData.getNoPermission());
-            }
-        } else {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(MessageData.getPluginPrefix() + MessageData.getPlayerOnlyError());
+
+            return;
+        }
+
+        if (sender.hasPermission("inventoryrollbackplus.viewbackups")) {
+            if (!ConfigData.isEnabled()) {
+                sender.sendMessage(MessageData.getPluginPrefix() + MessageData.getPluginDisabled());
+                return;
+            }
+            Player staff = (Player) sender;
+            openBackupMenu(sender, staff, args);
+        } else {
+            sender.sendMessage(MessageData.getPluginPrefix() + MessageData.getNoPermission());
         }
     }
 
